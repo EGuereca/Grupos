@@ -2,6 +2,8 @@ from alumno import Alumno
 from arreglo import Arreglo
 from maestro import Maestro
 import json
+from datetime import datetime
+
 
 class Grupo(Arreglo):
     def __init__(self, nombre=None, maestro=None,):
@@ -76,5 +78,8 @@ if __name__ == "__main__":
     grupo_dict = grupos_arreglo.to_dict()
     print(grupo_dict)
 
-    with open("grupos.json", "w") as file:
+    fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+    json_grupos = f"grupos_{fecha}.json"
+
+    with open(json_grupos, 'w') as file:
         json.dump(grupo_dict, file, indent=4)

@@ -1,5 +1,6 @@
 from arreglo import Arreglo
 import json
+from datetime import datetime
 
 class Alumno(Arreglo):
     def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None, use_dict=False):
@@ -80,7 +81,7 @@ class Alumno(Arreglo):
 
 
 if __name__ == "__main__":
-    alumno1 = Alumno("Enrique", "Guereca", "Munoz", 20, "23170046", "enrique@gmail.com")
+    alumno1 = Alumno("Jose", "Guereca", "Munoz", 20, "23170046", "enrique@gmail.com")
     print(alumno1)
     alumno2 = Alumno("Iker", "Flores","Luna", 22, "23170000", "iker@gmail.com")
     print(alumno2)
@@ -100,5 +101,8 @@ if __name__ == "__main__":
     alumno_dict = alumno1.to_dict()
     print(alumno_dict)
     
-    with open('alumnos.json', 'w') as file:
+    fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+    json_alumno = f"alumnos_{fecha}.json"
+    
+    with open(json_alumno, 'w') as file:
         json.dump(alumno_dict, file, indent=4)
