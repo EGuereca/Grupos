@@ -1,4 +1,5 @@
 from arreglo import Arreglo
+import json
 
 class Maestro( Arreglo):
     def __init__(self, nombre = None, apellidoPaterno = None, apellidoMaterno = None, materia = None, matricula = None):
@@ -64,3 +65,6 @@ if __name__ == "__main__":
     
     maestro_dict = maestros.to_dict()
     print(maestro_dict)
+    
+    with open("maestros.json", "w") as file:
+        json.dump(maestro_dict, file, indent=4)

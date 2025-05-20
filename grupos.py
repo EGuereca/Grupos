@@ -1,7 +1,7 @@
 from alumno import Alumno
 from arreglo import Arreglo
 from maestro import Maestro
-
+import json
 
 class Grupo(Arreglo):
     def __init__(self, nombre=None, maestro=None,):
@@ -75,3 +75,6 @@ if __name__ == "__main__":
 
     grupo_dict = grupos_arreglo.to_dict()
     print(grupo_dict)
+
+    with open("grupos.json", "w") as file:
+        json.dump(grupo_dict, file, indent=4)

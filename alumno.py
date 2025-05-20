@@ -1,8 +1,7 @@
 from arreglo import Arreglo
-from diccionario import Diccionario
+import json
 
-
-class Alumno(Arreglo, Diccionario):
+class Alumno(Arreglo):
     def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None, use_dict=False):
         if nombre is None and apellidoPaterno is None and apellidoMaterno is None and edad is None and matricula is None and email is None:
             Arreglo.__init__(self)
@@ -100,3 +99,6 @@ if __name__ == "__main__":
     
     alumno_dict = alumno1.to_dict()
     print(alumno_dict)
+    
+    with open('alumnos.json', 'w') as file:
+        json.dump(alumno_dict, file, indent=4)
