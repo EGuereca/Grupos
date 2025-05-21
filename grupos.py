@@ -3,7 +3,7 @@ from arreglo import Arreglo
 from maestro import Maestro
 import json
 from datetime import datetime
-
+import os
 
 class Grupo(Arreglo):
     def __init__(self, nombre=None, maestro=None,):
@@ -48,6 +48,18 @@ class Grupo(Arreglo):
             "alumnos": self.alumnos.to_dict() if self.alumnos else None
         }
 
+    def to_json(self):
+        fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+        carpeta = "grupos"
+        
+        if not os.path.exists(carpeta):
+            os.makedirs(carpeta)
+        
+        json_grupos = os.path.join(carpeta, f"maestros_{fecha}.json")
+        
+        with open(json_grupos, 'w') as file:
+         json.dump(self.to_dict(), file, indent=4)
+
     def __str__(self):
         if self.isArry:
             return f"Grupos (Arreglo): {len(self.items)}"
@@ -75,11 +87,7 @@ if __name__ == "__main__":
     grupos_arreglo.delete(grupo1)
     print("Usando Arreglo:", grupos_arreglo)
 
-    grupo_dict = grupos_arreglo.to_dict()
-    print(grupo_dict)
+    grupos_arreglo.to_json()
 
-    fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_grupos = f"grupos_{fecha}.json"
-
-    with open(json_grupos, 'w') as file:
-        json.dump(grupo_dict, file, indent=4)
+    # grupo_dict = grupos_arreglo.to_dict()
+    # print(grupo_dict)

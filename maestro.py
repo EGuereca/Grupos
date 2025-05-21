@@ -1,6 +1,7 @@
 from arreglo import Arreglo
 import json
 from datetime import datetime
+import os
 
 class Maestro( Arreglo):
     def __init__(self, nombre = None, apellidoPaterno = None, apellidoMaterno = None, materia = None, matricula = None):
@@ -44,7 +45,19 @@ class Maestro( Arreglo):
             "materia": self.materia,
             "matricula": self.matricula
         }
-            
+        
+    def to_json(self):
+        fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+        carpeta = "maestros"
+        
+        if not os.path.exists(carpeta):
+            os.makedirs(carpeta)
+        
+        json_maestro = os.path.join(carpeta, f"maestros_{fecha}.json")
+        
+        with open(json_maestro, 'w') as file:
+         json.dump(self.to_dict(), file, indent=4)
+    
     def __str__(self) :
         if self.isArry:
             return f"Maestros (Arreglo): {len(self.items)}"
@@ -52,7 +65,7 @@ class Maestro( Arreglo):
         return f"Maestro: {self.nombre} {self.apellidoPaterno} {self.apellidoMaterno} - {self.matricula}"
 
 if __name__ == "__main__":
-    maestro1 = Maestro("Antonia", "Garay","Hernandez" , "POO", "0000023")
+    maestro1 = Maestro("Antonio", "Garay","Hernandez" , "POO", "0000023")
     maestro2 = Maestro("Delia", "Tarango","Hernandez" , "Valores", "0000025")
     print(maestro1)
 
@@ -64,11 +77,8 @@ if __name__ == "__main__":
     maestros.add(maestro2)
     print(maestros)
     
-    maestro_dict = maestros.to_dict()
-    print(maestro_dict)
+    maestros.to_json()
+    # maestro_dict = maestros.to_dict()
+    # print(maestro_dict)
     
-    fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_maestro = f"maestros_{fecha}.json"
-    
-    with open(json_maestro, 'w') as file:
-        json.dump(maestro_dict, file, indent=4)
+    # maestro_dict.to_json()

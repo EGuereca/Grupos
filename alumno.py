@@ -1,7 +1,7 @@
 from arreglo import Arreglo
 import json
 from datetime import datetime
-
+import os
 class Alumno(Arreglo):
     def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None, use_dict=False):
         if nombre is None and apellidoPaterno is None and apellidoMaterno is None and edad is None and matricula is None and email is None:
@@ -73,6 +73,18 @@ class Alumno(Arreglo):
             "email": self.email
         }
 
+    def to_json(self):
+        fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
+        carpeta = "alumnos"
+        
+        if not os.path.exists(carpeta):
+            os.makedirs(carpeta)
+        
+        json_alumno = os.path.join(carpeta, f"maestros_{fecha}.json")
+        
+        with open(json_alumno, 'w') as file:
+         json.dump(self.to_dict(), file, indent=4)
+
     def __str__(self):
         if self.isArry:
             return f"Alumnos (Arreglo): {len(self.items)}"
@@ -98,11 +110,8 @@ if __name__ == "__main__":
 
     print(alumnos)
     
-    alumno_dict = alumno1.to_dict()
-    print(alumno_dict)
+    alumnos.to_json()
     
-    fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_alumno = f"alumnos_{fecha}.json"
-    
-    with open(json_alumno, 'w') as file:
-        json.dump(alumno_dict, file, indent=4)
+    # alumno_dict = alumno1.to_dict()
+    # print(alumno_dict)
+   
