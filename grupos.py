@@ -58,6 +58,12 @@ class Grupo(Arreglo):
         with open(json_grupos, 'w') as file:
          json.dump(self.to_dict(), file, indent=4)
 
+    def read_json(self):
+        carpeta = "grupos"
+        json_grupos = os.path.join(carpeta, "grupos.json")
+        with open(json_grupos, 'r') as file:
+            return json.load(file)
+
     def __str__(self):
         if self.isArry:
             return f"Grupos (Arreglo): {len(self.items)}"
@@ -86,6 +92,8 @@ if __name__ == "__main__":
     print("Usando Arreglo:", grupos_arreglo)
 
     grupos_arreglo.to_json()
+    
+    print(grupos_arreglo.read_json())
 
     # grupo_dict = grupos_arreglo.to_dict()
     # print(grupo_dict)

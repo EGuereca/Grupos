@@ -85,6 +85,12 @@ class Alumno(Arreglo):
         with open(json_alumno, 'w') as file:
          json.dump(self.to_dict(), file, indent=4)
 
+    def read_json(self):
+        carpeta = "alumnos"
+        json_alumno = os.path.join(carpeta, "alumnos.json")
+        with open(json_alumno, 'r') as file:
+            return json.load(file)
+
     def __str__(self):
         if self.isArry:
             return f"Alumnos (Arreglo): {len(self.items)}"
@@ -112,6 +118,7 @@ if __name__ == "__main__":
     
     alumnos.to_json()
     
+    print(alumnos.read_json())
     # alumno_dict = alumno1.to_dict()
     # print(alumno_dict)
    
