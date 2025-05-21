@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     grupos_arreglo.to_json()
     
-    print(grupos_arreglo.read_json())
+    print(json.dumps(grupos_arreglo.read_json(), indent=4))
 
     # grupo_dict = grupos_arreglo.to_dict()
     # print(grupo_dict)

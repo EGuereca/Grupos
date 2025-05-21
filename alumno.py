@@ -118,7 +118,7 @@ if __name__ == "__main__":
     
     alumnos.to_json()
     
-    print(alumnos.read_json())
+    print(json.dumps(alumnos.read_json(), indent=4))
     # alumno_dict = alumno1.to_dict()
     # print(alumno_dict)
    
