@@ -2,6 +2,7 @@ from arreglo import Arreglo
 import json
 from datetime import datetime
 import os
+
 class Alumno(Arreglo):
     def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None, use_dict=False):
         if nombre is None and apellidoPaterno is None and apellidoMaterno is None and edad is None and matricula is None and email is None:
@@ -74,13 +75,12 @@ class Alumno(Arreglo):
         }
 
     def to_json(self):
-        fecha = datetime.now().strftime("%Y%m%d_%H%M%S")
         carpeta = "alumnos"
         
         if not os.path.exists(carpeta):
             os.makedirs(carpeta)
         
-        json_alumno = os.path.join(carpeta, f"maestros_{fecha}.json")
+        json_alumno = os.path.join(carpeta, "alumnos.json")
         
         with open(json_alumno, 'w') as file:
          json.dump(self.to_dict(), file, indent=4)
