@@ -81,7 +81,6 @@ if __name__ == "__main__":
     print(maestros)
     
     maestros.to_json()
-    
     print(json.dumps(maestros.read_json(), indent=4))
     # maestro_dict = maestros.to_dict()
     # print(maestro_dict)
