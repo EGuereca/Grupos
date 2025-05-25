@@ -63,6 +63,9 @@ class Grupo(Arreglo):
         json_grupos = os.path.join(carpeta, "grupos.json")
         with open(json_grupos, 'r') as file:
             return json.load(file)
+    
+    def decirHola(self):
+        return "Hola"
 
     def __str__(self):
         if self.isArry:
@@ -95,5 +98,6 @@ if __name__ == "__main__":
     
     print(json.dumps(grupos_arreglo.read_json(), indent=4))
 
+    print(grupo1.decirHola())
     # grupo_dict = grupos_arreglo.to_dict()
     # print(grupo_dict)
