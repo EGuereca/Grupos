@@ -88,36 +88,35 @@ class Alumno(Arreglo):
         
         with open(json_alumnos, 'r') as file:
             data = json.load(file)
-            
-            if isinstance(data, list):
-                alumno_arreglo = Alumno()  
-                for item in data:
-                    alumno = self._dict_to_object(item)
-                    alumno_arreglo.add(alumno)
-                return alumno_arreglo
-            else:
-                return self._dict_to_object(data)
-        
+            return self._dict_to_object(data)
+
     def _dict_to_object(self, data):
-        if not data: 
+        if not data:
             return None
 
-        if data.get('type') == 'array':
+        if isinstance(data, list):
             alumno_arreglo = Alumno()
-            for item in data['items']:
-                alumno = self._dict_to_object(item)
+            for item in data:
+                alumno = Alumno(
+                    item['nombre'],
+                    item['apellidoPaterno'],
+                    item['apellidoMaterno'],
+                    item['edad'],
+                    item['matricula'],
+                    item['email']
+                )
                 alumno_arreglo.add(alumno)
             return alumno_arreglo
-
-        alumno = Alumno(
-            data['nombre'],
-            data['apellidoPaterno'],
-            data['apellidoMaterno'],
-            data['edad'],
-            data['matricula'],
-            data['email']
-        )
-        return alumno
+        else:
+            alumno = Alumno(
+                data['nombre'],
+                data['apellidoPaterno'],
+                data['apellidoMaterno'],
+                data['edad'],
+                data['matricula'],
+                data['email']
+            )
+            return alumno
 
     def __str__(self):
         if self.isArry:

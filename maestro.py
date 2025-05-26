@@ -58,35 +58,33 @@ class Maestro( Arreglo):
         
         with open(json_maestros, 'r') as file:
             data = json.load(file)
-            
-            if isinstance(data, list):
-                maestro_arreglo = Maestro()  
-                for item in data:
-                    maestro = self._dict_to_object(item)
-                    maestro_arreglo.add(maestro)
-                return maestro_arreglo
-            else:
-                return self._dict_to_object(data)
+            return self._dict_to_object(data)
     
     def _dict_to_object(self, data):
         if not data: 
             return None
 
-        if data.get('type') == 'array':
+        if isinstance(data, list):
             maestro_arreglo = Maestro()
-            for item in data['items']:
-                maestro = self._dict_to_object(item)
+            for item in data:
+                maestro = Maestro(
+                    item['nombre'],
+                    item['apellidoPaterno'],
+                    item['apellidoMaterno'],
+                    item['materia'],
+                    item['matricula']
+                )
                 maestro_arreglo.add(maestro)
             return maestro_arreglo
-
-        maestro = Maestro(
-            data['nombre'],
-            data['apellidoPaterno'],
-            data['apellidoMaterno'],
-            data['materia'],
-            data['matricula']
-        )
-        return maestro
+        else:
+            maestro = Maestro(
+                data['nombre'],
+                data['apellidoPaterno'],
+                data['apellidoMaterno'],
+                data['materia'],
+                data['matricula']
+            )
+            return maestro
     
     
     def __str__(self) :

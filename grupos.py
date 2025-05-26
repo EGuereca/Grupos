@@ -66,48 +66,71 @@ class Grupo(Arreglo):
         
         with open(json_grupos, 'r') as file:
             data = json.load(file)
-            
-            if isinstance(data, list):
-                grupo_arreglo = Grupo()  
-                for item in data:
-                    grupo = self._dict_to_object(item)
-                    grupo_arreglo.add(grupo)
-                return grupo_arreglo
-            else:
-                return self._dict_to_object(data)
+            return self._dict_to_object(data)
 
     def _dict_to_object(self, data):
-        if not data: 
+        if not data:
             return None
 
-        maestro_data = data.get('maestro')
-        maestro = None
-        if maestro_data:
-            maestro = Maestro(
-                maestro_data['nombre'],
-                maestro_data['apellidoPaterno'],
-                maestro_data['apellidoMaterno'],
-                maestro_data['materia'],
-                maestro_data['matricula']
-            )
-        
-        grupo = Grupo(data['nombre'], maestro)
-        
-        alumnos_data = data.get('alumnos')
-        if alumnos_data and alumnos_data.get("type") == "array":
-            for alumno_data in alumnos_data["items"]: 
-                alumno = Alumno(
-                    alumno_data['nombre'],
-                    alumno_data['apellidoPaterno'],
-                    alumno_data['apellidoMaterno'],
-                    alumno_data['edad'],
-                    alumno_data['matricula'],
-                    alumno_data['email']
+        if isinstance(data, list):
+            grupo_arreglo = Grupo()
+            for item in data:
+                maestro_data = item.get('maestro')
+                maestro = None
+                if maestro_data:
+                    maestro = Maestro(
+                        maestro_data['nombre'],
+                        maestro_data['apellidoPaterno'],
+                        maestro_data['apellidoMaterno'],
+                        maestro_data['materia'],
+                        maestro_data['matricula']
+                    )
+                
+                grupo = Grupo(item['nombre'], maestro)
+                
+                alumnos_data = item.get('alumnos')
+                if alumnos_data:
+                    for alumno_data in alumnos_data:
+                        alumno = Alumno(
+                            alumno_data['nombre'],
+                            alumno_data['apellidoPaterno'],
+                            alumno_data['apellidoMaterno'],
+                            alumno_data['edad'],
+                            alumno_data['matricula'],
+                            alumno_data['email']
+                        )
+                        grupo.alumnos.add(alumno)
+                
+                grupo_arreglo.add(grupo)
+            return grupo_arreglo
+        else:
+            maestro_data = data.get('maestro')
+            maestro = None
+            if maestro_data:
+                maestro = Maestro(
+                    maestro_data['nombre'],
+                    maestro_data['apellidoPaterno'],
+                    maestro_data['apellidoMaterno'],
+                    maestro_data['materia'],
+                    maestro_data['matricula']
                 )
-                grupo.alumnos.add(alumno)
-
-        
-        return grupo
+            
+            grupo = Grupo(data['nombre'], maestro)
+            
+            alumnos_data = data.get('alumnos')
+            if alumnos_data: 
+                for alumno_data in alumnos_data:
+                    alumno = Alumno(
+                        alumno_data['nombre'],
+                        alumno_data['apellidoPaterno'],
+                        alumno_data['apellidoMaterno'],
+                        alumno_data['edad'],
+                        alumno_data['matricula'],
+                        alumno_data['email']
+                    )
+                    grupo.alumnos.add(alumno)
+            
+            return grupo
 
     def __str__(self):
         if self.isArry:
