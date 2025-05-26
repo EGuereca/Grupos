@@ -59,7 +59,7 @@ class Grupo(Arreglo):
             "alumnos": self.alumnos.to_dict() if self.alumnos else None
         }
         
-        
+    
     def read_json(self):
         carpeta = "grupos"
         json_grupos = os.path.join(carpeta, "grupos.json")
@@ -70,13 +70,13 @@ class Grupo(Arreglo):
             if isinstance(data, list):
                 grupo_arreglo = Grupo()  
                 for item in data:
-                    grupo = self._dict_to_grupo(item)
+                    grupo = self._dict_to_object(item)
                     grupo_arreglo.add(grupo)
                 return grupo_arreglo
             else:
-                return self._dict_to_grupo(data)
+                return self._dict_to_object(data)
 
-    def _dict_to_grupo(self, data):
+    def _dict_to_object(self, data):
         if not data: 
             return None
 

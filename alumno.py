@@ -61,10 +61,7 @@ class Alumno(Arreglo):
 
     def to_dict(self):
         if self.isArry:
-            return {
-                "type": "array",
-                "items": [item.to_dict() for item in self.items] if self.items else []
-            }
+            return [item.to_dict() for item in self.items] if self.items else []
         return {
             "nombre": self.nombre,
             "apellidoPaterno": self.apellidoPaterno,
@@ -95,20 +92,20 @@ class Alumno(Arreglo):
             if isinstance(data, list):
                 alumno_arreglo = Alumno()  
                 for item in data:
-                    alumno = self._dict_to_alumno(item)
+                    alumno = self._dict_to_object(item)
                     alumno_arreglo.add(alumno)
                 return alumno_arreglo
             else:
-                return self._dict_to_alumno(data)
+                return self._dict_to_object(data)
         
-    def _dict_to_alumno(self, data):
+    def _dict_to_object(self, data):
         if not data: 
             return None
 
         if data.get('type') == 'array':
             alumno_arreglo = Alumno()
             for item in data['items']:
-                alumno = self._dict_to_alumno(item)
+                alumno = self._dict_to_object(item)
                 alumno_arreglo.add(alumno)
             return alumno_arreglo
 

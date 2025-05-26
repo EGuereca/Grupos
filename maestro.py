@@ -32,10 +32,7 @@ class Maestro( Arreglo):
 
     def to_dict(self):
         if self.isArry:
-            return {
-                "type": "array",
-                "items": [item.to_dict() for item in self.items] if self.items else []
-            }
+            return [item.to_dict() for item in self.items] if self.items else []
         return {
             "nombre": self.nombre,
             "apellidoPaterno": self.apellidoPaterno,
@@ -65,20 +62,20 @@ class Maestro( Arreglo):
             if isinstance(data, list):
                 maestro_arreglo = Maestro()  
                 for item in data:
-                    maestro = self._dict_to_maestro(item)
+                    maestro = self._dict_to_object(item)
                     maestro_arreglo.add(maestro)
                 return maestro_arreglo
             else:
-                return self._dict_to_maestro(data)
+                return self._dict_to_object(data)
     
-    def _dict_to_maestro(self, data):
+    def _dict_to_object(self, data):
         if not data: 
             return None
 
         if data.get('type') == 'array':
             maestro_arreglo = Maestro()
             for item in data['items']:
-                maestro = self._dict_to_maestro(item)
+                maestro = self._dict_to_object(item)
                 maestro_arreglo.add(maestro)
             return maestro_arreglo
 
