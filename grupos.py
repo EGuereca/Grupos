@@ -124,13 +124,14 @@ if __name__ == "__main__":
     alumno2 = Alumno("Iker", "Flores","Luna", 22, "23170000", "iker@gmail.com")
     maestro1 = Maestro("Ramiro", "Esquivel","Hernandez", "Base de Datos", "00004")
     grupo1 = Grupo("TIDSM 5", Maestro("David", "Del Toro","Hernandez", "Aplicaciones IoT", "00003"))
+    grupo2 = Grupo("TIDSM 3", Maestro("Igmar", "Salazar","Hernandez", "POO", "00004"))
 
     grupo1.alumnos.add(alumno1, alumno2)
     grupo1.asignar_maestro(maestro1)
 
     grupos_arreglo = Grupo()
-    grupos_arreglo.add(grupo1, grupo1)
-    grupos_arreglo.delete(grupo1)
+    grupos_arreglo.add(grupo1, grupo2)
+    # grupos_arreglo.delete(grupo1)
     print("Usando Arreglo:", grupos_arreglo)
 
     grupos_arreglo.to_json()

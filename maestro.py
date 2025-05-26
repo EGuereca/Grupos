@@ -119,8 +119,10 @@ if __name__ == "__main__":
             print(f"Apellido Paterno: {m.apellidoPaterno}")
             print(f"Apellido Materno: {m.apellidoMaterno}")
             print(f"Materia: {m.materia}")
+            print(f"Matricula: {m.matricula}")
     else:
         print(f"\nNombre: {maestro_recuperado.nombre}")
         print(f"Apellido Paterno: {maestro_recuperado.apellidoPaterno}")
         print(f"Apellido Materno: {maestro_recuperado.apellidoMaterno}")
         print(f"Materia: {maestro_recuperado.materia}")
+        print(f"Matricula: {maestro_recuperado.matricula}")
