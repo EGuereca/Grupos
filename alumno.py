@@ -87,9 +87,40 @@ class Alumno(Arreglo):
 
     def read_json(self):
         carpeta = "alumnos"
-        json_alumno = os.path.join(carpeta, "alumnos.json")
-        with open(json_alumno, 'r') as file:
-            return json.load(file)
+        json_alumnos = os.path.join(carpeta, "alumnos.json")
+        
+        with open(json_alumnos, 'r') as file:
+            data = json.load(file)
+            
+            if isinstance(data, list):
+                alumno_arreglo = Alumno()  
+                for item in data:
+                    alumno = self._dict_to_alumno(item)
+                    alumno_arreglo.add(alumno)
+                return alumno_arreglo
+            else:
+                return self._dict_to_alumno(data)
+        
+    def _dict_to_alumno(self, data):
+        if not data: 
+            return None
+
+        if data.get('type') == 'array':
+            alumno_arreglo = Alumno()
+            for item in data['items']:
+                alumno = self._dict_to_alumno(item)
+                alumno_arreglo.add(alumno)
+            return alumno_arreglo
+
+        alumno = Alumno(
+            data['nombre'],
+            data['apellidoPaterno'],
+            data['apellidoMaterno'],
+            data['edad'],
+            data['matricula'],
+            data['email']
+        )
+        return alumno
 
     def __str__(self):
         if self.isArry:
@@ -117,8 +148,18 @@ if __name__ == "__main__":
     print(alumnos)
     
     alumnos.to_json()
-    
-    print(json.dumps(alumnos.read_json(), indent=4))
-    # alumno_dict = alumno1.to_dict()
-    # print(alumno_dict)
    
+    alumno_recuperado = Alumno().read_json()
+    if alumno_recuperado.isArry:
+        for a in alumno_recuperado.items:
+            print(f"\nNombre: {a.nombre}")
+            print(f"Apellido Paterno: {a.apellidoPaterno}")
+            print(f"Apellido Materno: {a.apellidoMaterno}")
+            print(f"Edad: {a.edad}")
+            print(f"Matrícula: {a.matricula}")
+    else:
+        print(f"\nNombre: {alumno_recuperado.nombre}")
+        print(f"Apellido Paterno: {alumno_recuperado.apellidoPaterno}")
+        print(f"Apellido Materno: {alumno_recuperado.apellidoMaterno}")
+        print(f"Edad: {alumno_recuperado.edad}")
+        print(f"Matrícula: {alumno_recuperado.matricula}")

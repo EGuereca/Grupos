@@ -57,9 +57,40 @@ class Maestro( Arreglo):
     
     def read_json(self):
         carpeta = "maestros"
-        json_maestro = os.path.join(carpeta, "maestros.json")
-        with open(json_maestro, 'r') as file:
-            return json.load(file)
+        json_maestros = os.path.join(carpeta, "maestros.json")
+        
+        with open(json_maestros, 'r') as file:
+            data = json.load(file)
+            
+            if isinstance(data, list):
+                maestro_arreglo = Maestro()  
+                for item in data:
+                    maestro = self._dict_to_maestro(item)
+                    maestro_arreglo.add(maestro)
+                return maestro_arreglo
+            else:
+                return self._dict_to_maestro(data)
+    
+    def _dict_to_maestro(self, data):
+        if not data: 
+            return None
+
+        if data.get('type') == 'array':
+            maestro_arreglo = Maestro()
+            for item in data['items']:
+                maestro = self._dict_to_maestro(item)
+                maestro_arreglo.add(maestro)
+            return maestro_arreglo
+
+        maestro = Maestro(
+            data['nombre'],
+            data['apellidoPaterno'],
+            data['apellidoMaterno'],
+            data['materia'],
+            data['matricula']
+        )
+        return maestro
+    
     
     def __str__(self) :
         if self.isArry:
@@ -76,13 +107,20 @@ if __name__ == "__main__":
     print(maestro2)
     maestros = Maestro()
     maestros.add(maestro1)
-    # maestros.delete(maestro1)
     maestros.add(maestro2)
     print(maestros)
     
     maestros.to_json()
-    print(json.dumps(maestros.read_json(), indent=4))
-    # maestro_dict = maestros.to_dict()
-    # print(maestro_dict)
-    
-    # maestro_dict.to_json()
+
+    maestro_recuperado = Maestro().read_json()
+    if maestro_recuperado.isArry:
+        for m in maestro_recuperado.items:
+            print(f"\nNombre: {m.nombre}")
+            print(f"Apellido Paterno: {m.apellidoPaterno}")
+            print(f"Apellido Materno: {m.apellidoMaterno}")
+            print(f"Materia: {m.materia}")
+    else:
+        print(f"\nNombre: {maestro_recuperado.nombre}")
+        print(f"Apellido Paterno: {maestro_recuperado.apellidoPaterno}")
+        print(f"Apellido Materno: {maestro_recuperado.apellidoMaterno}")
+        print(f"Materia: {maestro_recuperado.materia}")

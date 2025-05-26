@@ -38,14 +38,6 @@ class Grupo(Arreglo):
     def cambiarNombre(self, nombre):
         self.nombre = nombre
 
-    def to_dict(self):
-        if self.isArry:
-            return  [item.to_dict() for item in self.items] if self.items else []
-        return {
-            "nombre": self.nombre,
-            "maestro": self.maestro.to_dict() if self.maestro else None,
-            "alumnos": self.alumnos.to_dict() if self.alumnos else None
-        }
 
     def to_json(self):
         carpeta = "grupos"
@@ -58,14 +50,64 @@ class Grupo(Arreglo):
         with open(json_grupos, 'w') as file:
          json.dump(self.to_dict(), file, indent=4)
 
+    def to_dict(self):
+        if self.isArry:
+            return  [item.to_dict() for item in self.items] if self.items else []
+        return {
+            "nombre": self.nombre,
+            "maestro": self.maestro.to_dict() if self.maestro else None,
+            "alumnos": self.alumnos.to_dict() if self.alumnos else None
+        }
+        
+        
     def read_json(self):
         carpeta = "grupos"
         json_grupos = os.path.join(carpeta, "grupos.json")
+        
         with open(json_grupos, 'r') as file:
-            return json.load(file)
-    
-    def decirHola(self):
-        return "Hola"
+            data = json.load(file)
+            
+            if isinstance(data, list):
+                grupo_arreglo = Grupo()  
+                for item in data:
+                    grupo = self._dict_to_grupo(item)
+                    grupo_arreglo.add(grupo)
+                return grupo_arreglo
+            else:
+                return self._dict_to_grupo(data)
+
+    def _dict_to_grupo(self, data):
+        if not data: 
+            return None
+
+        maestro_data = data.get('maestro')
+        maestro = None
+        if maestro_data:
+            maestro = Maestro(
+                maestro_data['nombre'],
+                maestro_data['apellidoPaterno'],
+                maestro_data['apellidoMaterno'],
+                maestro_data['materia'],
+                maestro_data['matricula']
+            )
+        
+        grupo = Grupo(data['nombre'], maestro)
+        
+        alumnos_data = data.get('alumnos')
+        if alumnos_data and alumnos_data.get("type") == "array":
+            for alumno_data in alumnos_data["items"]: 
+                alumno = Alumno(
+                    alumno_data['nombre'],
+                    alumno_data['apellidoPaterno'],
+                    alumno_data['apellidoMaterno'],
+                    alumno_data['edad'],
+                    alumno_data['matricula'],
+                    alumno_data['email']
+                )
+                grupo.alumnos.add(alumno)
+
+        
+        return grupo
 
     def __str__(self):
         if self.isArry:
@@ -86,9 +128,6 @@ if __name__ == "__main__":
     grupo1.alumnos.add(alumno1, alumno2)
     grupo1.asignar_maestro(maestro1)
 
-    print(alumno1)
-    print(grupo1)
-
     grupos_arreglo = Grupo()
     grupos_arreglo.add(grupo1, grupo1)
     grupos_arreglo.delete(grupo1)
@@ -96,8 +135,18 @@ if __name__ == "__main__":
 
     grupos_arreglo.to_json()
     
-    print(json.dumps(grupos_arreglo.read_json(), indent=4))
-
-    print(grupo1.decirHola())
-    # grupo_dict = grupos_arreglo.to_dict()
-    # print(grupo_dict)
+    grupo_recuperado = Grupo().read_json()
+    if grupo_recuperado.isArry:
+        for g in grupo_recuperado.items:
+            print(f"\nNombre: {g.nombre}")
+            print(f"Maestro: {g.maestro.nombre} {g.maestro.apellidoPaterno}")
+            print("Alumnos:")
+            for alumno in g.alumnos.items:
+                print(f"- {alumno.nombre} {alumno.matricula}")
+    else:
+        print(f"\nNombre: {grupo_recuperado.nombre}")
+        print(f"Maestro: {grupo_recuperado.maestro.nombre} {grupo_recuperado.maestro.apellidoPaterno}")
+        print("Alumnos:")
+        for alumno in grupo_recuperado.alumnos.items:
+            print(f"- {alumno.nombre} {alumno.matricula}")  
+    
