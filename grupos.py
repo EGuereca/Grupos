@@ -75,33 +75,10 @@ class Grupo(Arreglo):
         if isinstance(data, list):
             grupo_arreglo = Grupo()
             for item in data:
-                maestro_data = item.get('maestro')
-                maestro = None
-                if maestro_data:
-                    maestro = Maestro(
-                        maestro_data['nombre'],
-                        maestro_data['apellidoPaterno'],
-                        maestro_data['apellidoMaterno'],
-                        maestro_data['materia'],
-                        maestro_data['matricula']
-                    )
                 
-                grupo = Grupo(item['nombre'], maestro)
-                
-                alumnos_data = item.get('alumnos')
-                if alumnos_data:
-                    for alumno_data in alumnos_data:
-                        alumno = Alumno(
-                            alumno_data['nombre'],
-                            alumno_data['apellidoPaterno'],
-                            alumno_data['apellidoMaterno'],
-                            alumno_data['edad'],
-                            alumno_data['matricula'],
-                            alumno_data['email']
-                        )
-                        grupo.alumnos.add(alumno)
-                
+                grupo=grupo_arreglo._dict_to_object(item)                
                 grupo_arreglo.add(grupo)
+                
             return grupo_arreglo
         else:
             maestro_data = data.get('maestro')
@@ -115,20 +92,15 @@ class Grupo(Arreglo):
                     maestro_data['matricula']
                 )
             
+            
             grupo = Grupo(data['nombre'], maestro)
             
             alumnos_data = data.get('alumnos')
-            if alumnos_data: 
-                for alumno_data in alumnos_data:
-                    alumno = Alumno(
-                        alumno_data['nombre'],
-                        alumno_data['apellidoPaterno'],
-                        alumno_data['apellidoMaterno'],
-                        alumno_data['edad'],
-                        alumno_data['matricula'],
-                        alumno_data['email']
-                    )
-                    grupo.alumnos.add(alumno)
+            print("len(alumnos_data)>0",len(alumnos_data)>0,"alumnos_data:",alumnos_data)
+            if len(alumnos_data)>0:
+                        alumnos=Alumno()
+                        alumnos=alumnos._dict_to_object(alumnos_data)
+                        grupo.alumnos=alumnos
             
             return grupo
 
@@ -143,6 +115,7 @@ class Grupo(Arreglo):
 
 
 if __name__ == "__main__":
+
     alumno1 = Alumno("Enrique", "Guereca", "Munoz", 20, "23170046", "enrique@gmail.com")
     alumno2 = Alumno("Iker", "Flores","Luna", 22, "23170000", "iker@gmail.com")
     maestro1 = Maestro("Ramiro", "Esquivel","Hernandez", "Base de Datos", "00004")
@@ -174,3 +147,9 @@ if __name__ == "__main__":
         for alumno in grupo_recuperado.alumnos.items:
             print(f"- {alumno.nombre} {alumno.matricula}")  
     
+    
+    grupo=Grupo()
+    grupo_recuperado = grupo.read_json()
+    grupo=grupo_recuperado
+    
+    grupo.to_json()
