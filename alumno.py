@@ -1,10 +1,9 @@
 from arreglo import Arreglo
 import json
-from datetime import datetime
 import os
 
 class Alumno(Arreglo):
-    def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None, use_dict=False):
+    def __init__(self, nombre=None, apellidoPaterno=None,apellidoMaterno = None, edad=None, matricula=None, email=None):
         if nombre is None and apellidoPaterno is None and apellidoMaterno is None and edad is None and matricula is None and email is None:
             Arreglo.__init__(self)
             self.isArry = True
@@ -117,7 +116,7 @@ class Alumno(Arreglo):
                 data['email']
             )
             return alumno
-
+    
     def __str__(self):
         if self.isArry:
             return f"Alumnos (Arreglo): {len(self.items)}"
