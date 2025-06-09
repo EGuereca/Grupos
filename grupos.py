@@ -116,37 +116,36 @@ class Grupo(Arreglo):
 
 if __name__ == "__main__":
 
-    alumno1 = Alumno("Enrique", "Guereca", "Munoz", 20, "23170046", "enrique@gmail.com")
-    alumno2 = Alumno("Iker", "Flores","Luna", 22, "23170000", "iker@gmail.com")
-    maestro1 = Maestro("Ramiro", "Esquivel","Hernandez", "Base de Datos", "00004")
-    grupo1 = Grupo("TIDSM 5", Maestro("David", "Del Toro","Hernandez", "Aplicaciones IoT", "00003"))
-    grupo2 = Grupo("TIDSM 3", Maestro("Igmar", "Salazar","Hernandez", "POO", "00004"))
+    # alumno1 = Alumno("Enrique", "Guereca", "Munoz", 20, "23170046", "enrique@gmail.com")
+    # alumno2 = Alumno("Iker", "Flores","Luna", 22, "23170000", "iker@gmail.com")
+    # maestro1 = Maestro("Ramiro", "Esquivel","Hernandez", "Base de Datos", "00004")
+    # grupo1 = Grupo("TIDSM 5", Maestro("David", "Del Toro","Hernandez", "Aplicaciones IoT", "00003"))
+    # grupo2 = Grupo("TIDSM 3", Maestro("Igmar", "Salazar","Hernandez", "POO", "00004"))
 
-    grupo1.alumnos.add(alumno1, alumno2)
-    grupo1.asignar_maestro(maestro1)
+    # grupo1.alumnos.add(alumno1, alumno2)
+    # grupo1.asignar_maestro(maestro1)
 
-    grupos_arreglo = Grupo()
-    grupos_arreglo.add(grupo1, grupo2)
-    # grupos_arreglo.delete(grupo1)
-    print("Usando Arreglo:", grupos_arreglo)
+    # grupos_arreglo = Grupo()
+    # grupos_arreglo.add(grupo1, grupo2)
+    # # grupos_arreglo.delete(grupo1)
+    # print("Usando Arreglo:", grupos_arreglo)
 
-    grupos_arreglo.to_json()
+    # grupos_arreglo.to_json()
     
-    grupo_recuperado = Grupo().read_json()
-    if grupo_recuperado.isArry:
-        for g in grupo_recuperado.items:
-            print(f"\nNombre: {g.nombre}")
-            print(f"Maestro: {g.maestro.nombre} {g.maestro.apellidoPaterno}")
-            print("Alumnos:")
-            for alumno in g.alumnos.items:
-                print(f"- {alumno.nombre} {alumno.matricula}")
-    else:
-        print(f"\nNombre: {grupo_recuperado.nombre}")
-        print(f"Maestro: {grupo_recuperado.maestro.nombre} {grupo_recuperado.maestro.apellidoPaterno}")
-        print("Alumnos:")
-        for alumno in grupo_recuperado.alumnos.items:
-            print(f"- {alumno.nombre} {alumno.matricula}")  
-    
+    # grupo_recuperado = Grupo().read_json()
+    # if grupo_recuperado.isArry:
+    #     for g in grupo_recuperado.items:
+    #         print(f"\nNombre: {g.nombre}")
+    #         print(f"Maestro: {g.maestro.nombre} {g.maestro.apellidoPaterno}")
+    #         print("Alumnos:")
+    #         for alumno in g.alumnos.items:
+    #             print(f"- {alumno.nombre} {alumno.matricula}")
+    # else:
+    #     print(f"\nNombre: {grupo_recuperado.nombre}")
+    #     print(f"Maestro: {grupo_recuperado.maestro.nombre} {grupo_recuperado.maestro.apellidoPaterno}")
+    #     print("Alumnos:")
+    #     for alumno in grupo_recuperado.alumnos.items:
+    #         print(f"- {alumno.nombre} {alumno.matricula}")  
     
     grupo=Grupo()
     grupo_recuperado = grupo.read_json()
